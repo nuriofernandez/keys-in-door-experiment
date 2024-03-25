@@ -19,11 +19,14 @@ I have my security camera looking to the door:
 
 ## Technical explanation
 
-From the keys area, I defined an area where the keys should be visible:
+From the keys area, I defined an area where the keys should be visible, and
+for color comparaison, there is a control point to compare the colors with the
+keys area.
 
-![](https://i.imgur.com/Nz5YnPk.png)
+![](https://i.imgur.com/4inD0In.png)
 
-I get all pixels in that area and calculate the average color.
+I get all pixels in that area and calculate the average color,
+ignoring those too close to the control point.
 
 ```go
 for y := startY; y >= endY; y-- {
@@ -32,16 +35,29 @@ for y := startY; y >= endY; y-- {
         pixelColor := img.At(x, y)
         // Extract the RGB components
         r, g, b, _ := pixelColor.RGBA()
+		
+		if distance(r,g,b, controlPoint) < 10 {
+			// Ignore colors too close to the control point
+			// so later the comparator will be more precise.
+		    continue;	
+        }
     }
 }
 ```
 
 Since the keys are darker than the door,
-if the average color is below 125, that means the keys are there.
+the difference between the control point should be noticeable.
 
 ```go
-// above 125 there is not much black, so no keys
-var keysThere = r < 125 && g < 125 && b < 125
+// Calculate the difference between the avg and the control point colors
+difference := distance(
+    avgR, avgB, avgG,
+    controlPoint
+)
+
+// if the color from the control point differs more than 5 points,
+// then the keys are there.
+keysThere := difference > 5
 return keysThere, nil
 ```
 
