@@ -17,6 +17,9 @@ func avg(img image.Image) (int, int, int) {
 	totalB := 0
 	totalPixels := 0
 
+	// Get control point color to compare
+	cR, cG, cB := control(img)
+
 	// Iterate over the pixels in the specified region
 	for y := startY; y >= endY; y-- {
 		for x := startX; x <= endX; x++ {
@@ -24,10 +27,27 @@ func avg(img image.Image) (int, int, int) {
 			pixelColor := img.At(x, y)
 			// Extract the RGB components
 			r, g, b, _ := pixelColor.RGBA()
+
 			// Accumulate the color components
-			totalR += int(r >> 8)
-			totalG += int(g >> 8)
-			totalB += int(b >> 8)
+			rR := int(r >> 8)
+			rG := int(g >> 8)
+			rB := int(b >> 8)
+
+			// Calculate the difference between the avg and the control point colors
+			var difference = distance(
+				rR, rB, rG,
+				cR, cG, cB,
+			)
+
+			if difference < 30 {
+				// ignore those colors close to the control point
+				continue
+			}
+
+			// Accumulate the color components
+			totalR += rR
+			totalG += rG
+			totalB += rB
 			totalPixels++
 		}
 	}
