@@ -1,4 +1,4 @@
-package main
+package keyscheck
 
 import "github.com/nuriofernandez/keys-in-door-experiment/camera"
 
