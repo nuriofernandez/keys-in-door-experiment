@@ -35,11 +35,11 @@ for y := startY; y >= endY; y-- {
         pixelColor := img.At(x, y)
         // Extract the RGB components
         r, g, b, _ := pixelColor.RGBA()
-		
-		if distance(r,g,b, controlPoint) < 10 {
-			// Ignore colors too close to the control point
-			// so later the comparator will be more precise.
-		    continue;	
+
+        if distance(r,g,b, controlPoint) < 10 {
+            // Ignore colors too close to the control point
+            // so later the comparator will be more precise.
+            continue;	
         }
     }
 }
