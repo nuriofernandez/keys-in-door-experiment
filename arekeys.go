@@ -1,7 +1,9 @@
 package main
 
+import "github.com/nuriofernandez/keys-in-door-experiment/camera"
+
 func AreKeysThere() (bool, error) {
-	screenshot, err := screenShot()
+	screenshot, err := camera.ScreenShot()
 	if err != nil {
 		return false, err
 	}

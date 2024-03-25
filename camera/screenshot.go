@@ -1,4 +1,4 @@
-package main
+package camera
 
 import (
 	"fmt"
@@ -20,7 +20,7 @@ var rtsp = fmt.Sprintf(
 	os.Getenv("RTSP_HOST"),
 )
 
-func screenShot() (*image.Image, error) {
+func ScreenShot() (*image.Image, error) {
 	c := gortsplib.Client{}
 
 	// parse URL
