@@ -9,9 +9,19 @@ func AreKeysThere() (bool, error) {
 	}
 
 	// Calculate average color of the keys area
-	r8, g8, b8 := avg(*screenshot)
+	aR, aB, aG := avg(*screenshot)
 
-	// above 125 there is not much black, so no keys
-	var keysThere = r8 < 125 && g8 < 125 && b8 < 125
+	// Get control point color to compare
+	cR, cG, cB := control(*screenshot)
+
+	// Calculate the difference between the avg and the control point colors
+	var difference = distance(
+		aR, aB, aG,
+		cR, cG, cB,
+	)
+
+	// if the color from the control point differs more than 5 points,
+	// then the keys are there.
+	keysThere := difference > 5
 	return keysThere, nil
 }

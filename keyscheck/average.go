@@ -6,10 +6,10 @@ import (
 
 func avg(img image.Image) (int, int, int) {
 	// Define the region of interest
-	startX := 1290
-	endX := 1324
-	startY := 806
-	endY := 767
+	startX := 1280
+	endX := 1315
+	startY := 805
+	endY := 760
 
 	// Variables to hold total color components
 	totalR := 0
