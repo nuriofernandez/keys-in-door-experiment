@@ -9,7 +9,7 @@ func AreKeysThere() (bool, error) {
 	}
 
 	// Calculate average color of the keys area
-	aR, aB, aG := avg(*screenshot)
+	aR, aB, aG, precision := avg(*screenshot)
 
 	// Get control point color to compare
 	cR, cG, cB := control(*screenshot)
@@ -22,6 +22,6 @@ func AreKeysThere() (bool, error) {
 
 	// if the color from the control point differs more than 5 points,
 	// then the keys are there.
-	keysThere := difference > 5
+	keysThere := difference > 5 && precision >= 0.4
 	return keysThere, nil
 }

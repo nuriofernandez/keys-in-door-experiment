@@ -1,10 +1,12 @@
 package keyscheck
 
 import (
+	"fmt"
 	"image"
+	"math"
 )
 
-func avg(img image.Image) (int, int, int) {
+func avg(img image.Image) (int, int, int, float64) {
 	// Define the region of interest
 	startX := 1280
 	endX := 1315
@@ -39,7 +41,7 @@ func avg(img image.Image) (int, int, int) {
 				cR, cG, cB,
 			)
 
-			if difference < 30 {
+			if difference < 15 {
 				// ignore those colors close to the control point
 				continue
 			}
@@ -52,10 +54,22 @@ func avg(img image.Image) (int, int, int) {
 		}
 	}
 
+	fmt.Printf("Total number of pixels: %d\n", totalPixels)
+	if totalPixels <= 0 {
+		totalPixels = 1
+	}
+
+	// Precision calculation
+	diffX := math.Abs(float64(startX-endX)) + 1
+	diffY := math.Abs(float64(startY-endY)) + 1
+	area := diffY * diffX
+	precision := float64(totalPixels) / area
+	fmt.Printf("Precision: %f\n", precision)
+
 	// Calculate the average color
 	avgR := totalR / totalPixels
 	avgG := totalG / totalPixels
 	avgB := totalB / totalPixels
 
-	return avgR, avgG, avgB
+	return avgR, avgG, avgB, precision
 }
