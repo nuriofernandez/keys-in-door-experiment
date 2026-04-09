@@ -2,15 +2,17 @@ package camera
 
 import (
 	"fmt"
+	"image"
+	"image/draw"
+	"log"
+	"os"
+
 	"github.com/bluenviron/gortsplib/v4"
 	"github.com/bluenviron/gortsplib/v4/pkg/base"
 	"github.com/bluenviron/gortsplib/v4/pkg/format"
 	"github.com/bluenviron/gortsplib/v4/pkg/format/rtph264"
 	"github.com/bluenviron/mediacommon/pkg/codecs/h264"
 	"github.com/pion/rtp"
-	"image"
-	"log"
-	"os"
 )
 
 var rtsp = fmt.Sprintf(
@@ -115,7 +117,13 @@ func ScreenShot() (*image.Image, error) {
 				continue
 			}
 
-			capturedImage = &img
+			bounds := img.Bounds()
+			clone := image.NewRGBA(bounds)
+			draw.Draw(clone, bounds, img, bounds.Min, draw.Src)
+
+			var finalImg image.Image = clone
+			capturedImage = &finalImg
+
 			go c.Close()
 			return
 		}
