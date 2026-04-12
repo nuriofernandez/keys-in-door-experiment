@@ -1,9 +1,10 @@
 # Are keys in the door?
 
-I keep forgetting my keys on the outside of the door, and realize next morning I slept
-with the keys in the door. 😱
+I’ve been leaving my keys in the outside lock by mistake. It’s terrifying to wake up and realize anyone could have just walked right in while I was asleep. 😱
 
-So, I decided to create this service to be able to send me notifications.
+So, I decided to create this service to monitor the interior lock for the presence of my keys and send me notifications otherwise if I'm not connected to the WIFI!
+
+This works because when I'm home, I always leave the keys on the door lock, so if they are not there, must mean I'm not home or that I actually left them outside!
 
 ## Requirements
 
